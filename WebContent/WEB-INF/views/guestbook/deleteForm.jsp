@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ page import="com.javaex.vo.UserVo" %>
+
+<%
+//어트리뷰트에 저장된 주소를 따라가면 UserVo 형태로 저장된 회원 정보가 나온다.
+UserVo authUser = (UserVo)session.getAttribute("authUser");
+%>    
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,20 +23,24 @@
 
 		<div id="header" class="clearfix">
 			<h1>
-				<a href="">MySite</a>
+				<a href="/mysite/main">MySite</a>
 			</h1>
 
-			<!-- 
+			
+			<%if (authUser == null) {%>
+			<!-- 로그인 실패, 로그인 전 -->
 			<ul>
-				<li>황일영 님 안녕하세요^^</li>
-				<li><a href="" class="btn_s">로그아웃</a></li>
-				<li><a href="" class="btn_s">회원정보수정</a></li>
+				<li><a href="/mysite/user?action=loginForm" class="btn_s">로그인</a></li>
+				<li><a href="/mysite/user?action=joinForm" class="btn_s">회원가입</a></li>
 			</ul>
-			-->	
+			<%}else {%>
+			<!-- 로그인 성공 -->
 			<ul>
-				<li><a href="" class="btn_s">로그인</a></li>
-				<li><a href="" class="btn_s">회원가입</a></li>
+				<li><%=authUser.getName() %> 님 안녕하세요^^</li>
+				<li><a href="/mysite/user?action=logout" class="btn_s">로그아웃</a></li>
+				<li><a href="/mysite/user?action=modifyForm" class="btn_s">회원정보수정</a></li>
 			</ul>
+			<%}%>
 			
 		</div>
 		<!-- //header -->
