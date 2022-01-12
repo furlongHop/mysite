@@ -60,7 +60,7 @@ public class UserDao {
 	}
 
 	// 회원정보 1명 가져오기(로그인용)
-	public UserVo getUSer(String id, String password) {
+	public UserVo getUSer(String uid, String pw) {
 		
 		UserVo userVo = null;
 		
@@ -70,19 +70,22 @@ public class UserDao {
 			// 3. SQL문 준비 / 바인딩 / 실행
 			// 문자열
 			String query = "";
-			query += " select no, ";
-			query += " 		  name ";
-			query += " from users ";
-			query += " where id = ? ";
-			query += " and password = ? ";
+			query += " select   no, "; 
+			query += "          id, ";
+			query += "          password, ";
+			query += "          name, ";
+			query += "          gender ";
+			query += " from 	users ";
+			query += " where 	id = ? ";
+			query += " and 		password = ? ";
 			
 			//쿼리문
 			
 			pstmt = conn.prepareStatement(query);
 			
 			//바인딩
-			pstmt.setString(1, id);
-			pstmt.setString(2, password);
+			pstmt.setString(1, uid);
+			pstmt.setString(2, pw);
 			
 			//실행-db에서 데이터를 가져오는 과정이므로 excuteQuery
 			rs = pstmt.executeQuery();
@@ -91,10 +94,14 @@ public class UserDao {
 			while(rs.next()) {
 				
 				int no = rs.getInt("no");
-				String name = rs.getString("name");
+				String id= rs.getString("id");
+				String password= rs.getString("password");
+				String name= rs.getString("name");
+				String gender= rs.getString("gender");
+
 				
-				//2개짜리 생성자를 만들거나 setter로 값을 넣어준다.
-				userVo = new UserVo(no,name);
+				//개수와 종류에 맞는 생성자를 만들거나 setter로 값을 넣어준다.
+				userVo = new UserVo(no, id, password, name, gender);
 				//userVo.setNo(no);
 				//userVo.setName(name);
 			}
@@ -152,10 +159,10 @@ public class UserDao {
 			// 문자열
 			String query = "";
 			query += " update users ";
-			query += " set  password = ?, ";
-			query += " name = ?, ";
-			query += " gender = ? ";
-			query += " where id = ? ";
+			query += " set    password = ?, ";
+			query += " 		  name = ?, ";
+			query += " 		  gender = ? ";
+			query += " where  no = ? ";
 			//query += " and password = ? ";
 
 			// 쿼리문
@@ -165,8 +172,7 @@ public class UserDao {
 			pstmt.setString(1, userVo.getPassword());
 			pstmt.setString(2, userVo.getName());
 			pstmt.setString(3, userVo.getGender());
-			pstmt.setString(4, userVo.getId());
-			//pstmt.setString(5, userVo.getPassword());
+			pstmt.setInt(4, userVo.getNo());
 
 			// 실행
 			count = pstmt.executeUpdate();

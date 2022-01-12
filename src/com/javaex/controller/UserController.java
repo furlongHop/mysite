@@ -80,6 +80,7 @@ public class UserController extends HttpServlet {
 				
 				WebUtil.redirect(request, response, "/mysite/main");
 			}
+			System.out.println(authVo);
 		
 		}else if("logout".equals(act)) {
 			System.out.println("logout");
@@ -93,16 +94,17 @@ public class UserController extends HttpServlet {
 			System.out.println("modify");
 			
 			//수정폼에 적은 파라미터 값을 불러온다  
-			String id = request.getParameter("id");
+			int no= Integer.parseInt(request.getParameter("no"));
 			String name = request.getParameter("name");
 			String password = request.getParameter("password");
 			String gender = request.getParameter("gender");
 			
-			//불러온 값을 userVo에 담고 update 메소드로 회원정보를 수정한다
-			UserVo userVo = new UserVo(id, name, password, gender);
+			//db 정보 수정-불러온 값을 userVo에 담고 update 메소드로 회원정보를 수정한다
+			UserVo userVo = new UserVo(no, password, name, gender);
 			UserDao userDao = new UserDao();
 			userDao.update(userVo);
 			
+			//세션 정보 수정
 			HttpSession session = request.getSession();
 			session.removeAttribute("authUser");//기존 객체 주소 삭제
 			session.setAttribute("authUser", userVo);//회원 정보를 수정한 새로운 객체 주소 입력
@@ -112,17 +114,6 @@ public class UserController extends HttpServlet {
 		}else if("modifyForm".equals(act)) {
 			System.out.println("modifyForm");
 			
-			//session 객체 정보를 request로 받아 HttpSession 형태로 저장
-			HttpSession session = request.getSession();
-			//세션 어트리뷰트에 저장된 객체 주소(현재 로그인이 성공된 회원정보)를 authUser에 담는다
-			UserVo authUser = (UserVo)session.getAttribute("authUSer");
-			
-			UserDao userDao = new UserDao();
-			//id와 pw로 회원의 no, name 정보를 가져오는 getUser 메소드 호출, 불러온 회원 정보를 userVo에 담는다
-			UserVo userVo = userDao.getUSer(authUser.getId(), authUser.getPassword());
-			
-			//가져온 회원정보(userVo의 주소)를 authUser라는 이름으로 어트리뷰트에 저장한다>수정폼 value값 제공
-			request.setAttribute("authUser", userVo);
 			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 		}
 	

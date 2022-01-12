@@ -119,6 +119,7 @@ UserVo authUser = (UserVo)session.getAttribute("authUser");
 								<button type="submit" id="btn-submit">회원정보수정</button>
 							</div>
 							<input type="hidden" name="action" value="modify">
+							<input type="hidden" name="no" value=<%=authUser.getNo()%>>
 						</form>
 					
 					
