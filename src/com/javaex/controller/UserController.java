@@ -20,6 +20,7 @@ public class UserController extends HttpServlet {
  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.setCharacterEncoding("UTF-8");//post 방식으로 데이터를 가져올 경우 한글이 깨지는 현상 방지
 		System.out.println("user");
 		
 		String act = request.getParameter("action");
