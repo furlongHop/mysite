@@ -60,7 +60,7 @@ public class UserDao {
 	}
 
 	// 회원정보 1명 가져오기(로그인용)
-	public UserVo getUSer(String uid, String pw) {
+	public UserVo getUser(String uid, String pw) {
 		
 		UserVo userVo = null;
 		

@@ -46,7 +46,7 @@ public class GuestbookController extends HttpServlet {
 			List<GuestbookVo> guestbookbList = gbDao.getList();
 			
 			//guestbookList를 setAttribute 메소드로 gbList라는 이름으로 request에 저장한다. 
-			request.setAttribute("gbList", guestbookbList);
+			request.setAttribute("guestList", guestbookbList);//jstl 문법에서 사용<c:forEach>
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/guestbook/addList.jsp");
 			

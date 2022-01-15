@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>     
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%
 String result = request.getParameter("result");
@@ -14,7 +14,7 @@ String result = request.getParameter("result");
 <title>Insert title here</title>
 <link href="/mysite/assets/css/mysite.css" rel="stylesheet"
 	type="text/css">
-<link href="/mysite/assets/css/user.css" " rel="stylesheet"
+<link href="/mysite/assets/css/user.css" rel="stylesheet"
 	type="text/css">
 
 </head>
@@ -69,13 +69,9 @@ String result = request.getParameter("result");
 							</div>
 
 
-							<%
-							if ("fail".equals(result)) {
-							%>
-							<p>[로그인에 실패했습니다. 다시 시도해주세요.]</p>
-							<%
-							}
-							%>
+							<c:if test="${param.result eq 'fail' }">
+								<p>[로그인에 실패했습니다. 다시 시도해주세요.]</p>
+							</c:if>
 
 
 							<!-- 버튼영역 -->

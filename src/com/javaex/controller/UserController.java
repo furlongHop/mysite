@@ -63,7 +63,7 @@ public class UserController extends HttpServlet {
 			String password = request.getParameter("password");
 			
 			UserDao userDao = new UserDao();
-			UserVo authVo = userDao.getUSer(id,password);//인증된 사용자
+			UserVo authVo = userDao.getUser(id,password);//인증된 사용자
 			//System.out.println(authVo);
 			
 			if(authVo == null) {//로그인 실패
@@ -114,6 +114,21 @@ public class UserController extends HttpServlet {
 			
 		}else if("modifyForm".equals(act)) {
 			System.out.println("modifyForm");
+			
+			//사용자 정보를 가져오기 위한 id와 password값은 세션에서 가져온다.
+			//세션의 정보 ==  로그인한 사용자 정보
+			HttpSession session = request.getSession();
+			String id = ((UserVo)session.getAttribute("authUser")).getId();
+			String pw = ((UserVo)session.getAttribute("authUser")).getPassword();
+			
+			
+			//UserDao 의 getUser()로 사용자 정보 가져오기
+			UserDao userDao = new UserDao();
+			UserVo userVo = userDao.getUser(id, pw);	
+			
+			System.out.println(userVo);
+			//포워드 --> 데이터전달(요청문서의 바디(attributte))
+			request.setAttribute("userVo", userVo);//modifyForm의 특정값 호출시 사용
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 		}

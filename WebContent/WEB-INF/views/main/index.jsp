@@ -21,8 +21,7 @@
 	<div id="wrap">
 
 		<!-- header, nav -->
-		<c:import url="/WEB-INF/views/include/header.jsp"></c:import><!-- :jstl -->
-		<!--<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>:자바 문법-->
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
 
 		<div id="container" class="clearfix">
