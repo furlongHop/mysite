@@ -66,14 +66,16 @@
 							</thead>
 							<tbody>
 							
+							<c:forEach items="${boardList}" var="boardVo">
 								<tr>
-									<td>123</td>
-									<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-									<td>정우성</td>
-									<td>1232</td>
-									<td>2020-12-23</td>
-									<td><a href="">[삭제]</a></td>
+									<td>${boardVo.no}</td>
+									<td class="text-left"><a href="#">${boardVo.title}</a></td>
+									<td>${boardVo.userName}</td>
+									<td>${boardVo.hit}</td>
+									<td>${boardVo.regDate}</td>
+									<td><a href="/mysite/board?action=delete&no=${boardVo.no}">[삭제]</a></td>
 								</tr>
+							</c:forEach>
 							</tbody>
 						</table>
 			
@@ -96,7 +98,7 @@
 							
 							<div class="clear"></div>
 						</div>
-						<a id="btn_write" href="">글쓰기</a>
+						<a id="btn_write" href="/mysite/board?action=writeForm">글쓰기</a>
 					
 					</div>
 					<!-- //list -->
