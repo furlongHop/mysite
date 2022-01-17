@@ -47,12 +47,14 @@
 	
 				<div id="board">
 					<div id="writeForm">
-						<form action="#" method="get">
+						<form action="/mysite/board" method="get">
+						<input type="hidden" name="action" value="write">
+						<input type="hidden" name=userNo value="${sessionScope.authUser.no}">
+						
 							<!-- 제목 -->
 							<div class="form-group">
-							<input type="hidden" name=userNo value="${sessionScope.authUser.no}">
 								<label class="form-text" for="txt-title">제목</label>
-								<input type="text" id="txt-title" name="title" value="" placeholder="제목을 입력해 주세요">
+								<input type="text" id="txt-title" name="title" placeholder="제목을 입력해 주세요">
 							</div>
 						
 							<!-- 내용 -->

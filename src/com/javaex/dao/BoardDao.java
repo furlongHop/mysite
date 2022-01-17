@@ -229,8 +229,8 @@ public class BoardDao {
 
 			pstmt = conn.prepareStatement(query);
 
-			pstmt.setString(1, title); 
-			pstmt.setString(2, content); 
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
 			pstmt.setInt(3, userNo);
 
 			count = pstmt.executeUpdate();
@@ -240,6 +240,39 @@ public class BoardDao {
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
+		close();
+		return count;
+	}
+
+	// 게시글 수정
+	public int modify(BoardVo boardVo) {
+		int count = 0;
+		getConnection();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = ""; // 쿼리문 문자열만들기, ? 주의
+			query += " update board ";
+			query += " set title = ?  ";
+			query += "     ,content = ?  ";
+			query += " where no = ? ";
+
+			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+
+			pstmt.setString(1, boardVo.getTitle()); 
+			pstmt.setString(2, boardVo.getContent()); 
+			pstmt.setInt(3, boardVo.getNo()); 
+			
+
+			count = pstmt.executeUpdate(); // 쿼리문 실행
+
+			// 4.결과처리
+			System.out.println(count + "건 수정되었습니다.");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
 		close();
 		return count;
 	}

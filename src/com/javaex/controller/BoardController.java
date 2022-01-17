@@ -8,10 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.BoardDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.UserVo;
 
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
@@ -63,17 +65,49 @@ public class BoardController extends HttpServlet {
 		} else if ("writeForm".equals(act)) {
 			System.out.println("writeForm");
 
-			WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
+			HttpSession session = request.getSession();//생성된 세션 객체 데이터 가져오기
+			UserVo authUser = (UserVo)session.getAttribute("authUser");//로그인 유저 정보
+			
+			if(authUser !=null) {
+				System.out.println("로그인 했을 때");
+				
+				WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
+			}else {
+				System.out.println("로그인 안 했을 때");
+				
+				WebUtil.redirect(request, response, "/mysite/board?action=list");
+			}
+			
+			
 
 		} else if ("modify".equals(act)) {
 			System.out.println("modify");
 			
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			int bno = Integer.parseInt(request.getParameter("no"));
 			
+			BoardVo boardVo = new BoardVo();
+			boardVo.setTitle(title);
+			boardVo.setContent(content);
+			boardVo.setNo(bno);
+			
+			BoardDao boardDao = new BoardDao();
+			boardDao.modify(boardVo);
+
+			WebUtil.redirect(request, response, "/mysite/board?action=list");
 
 		} else if ("modifyForm".equals(act)) {
 			System.out.println("modifyForm");
 			
+			int no = Integer.parseInt(request.getParameter("no"));
 			
+			BoardDao boardDao = new BoardDao();
+			BoardVo boardVo = boardDao.getBoard(no);
+			
+			request.setAttribute("getBoard", boardVo);
+			
+			WebUtil.forward(request, response, "/WEB-INF/views/board/modifyForm.jsp");
 
 		} else if ("delete".equals(act)) {
 			System.out.println("delete");
