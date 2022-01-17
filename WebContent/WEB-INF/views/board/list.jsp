@@ -69,7 +69,7 @@
 							<c:forEach items="${boardList}" var="boardVo">
 								<tr>
 									<td>${boardVo.no}</td>
-									<td class="text-left"><a href="#">${boardVo.title}</a></td>
+									<td class="text-left"><a href="/mysite/board?action=read&no=${boardVo.no}">${boardVo.title}</a></td>
 									<td>${boardVo.userName}</td>
 									<td>${boardVo.hit}</td>
 									<td>${boardVo.regDate}</td>

@@ -13,64 +13,75 @@ import com.javaex.dao.BoardDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
 
-
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		System.out.println("board");
-		
+
 		String act = request.getParameter("action");
-		
-		if("list".equals(act)) {
+
+		if ("list".equals(act)) {
 			System.out.println("list");
-			
+
 			BoardDao boardDao = new BoardDao();
-		 	List<BoardVo> bList = boardDao.getList();
-			
+			List<BoardVo> bList = boardDao.getList();
+
 			request.setAttribute("boardList", bList);
-			
+
 			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
-		}else if("read".equals(act)) {
+
+		} else if ("read".equals(act)) {
 			System.out.println("read");
-			int no= Integer.parseInt(request.getParameter("no"));
-			
+			int no = Integer.parseInt(request.getParameter("no"));
+
 			BoardDao boardDao = new BoardDao();
 			BoardVo boardVo = boardDao.getBoard(no);
 			
-			request.setAttribute("board", boardVo);
-			
+			//조회수 증가
+			boardDao.read(no);
+
+			request.setAttribute("getBoard", boardVo);
+
 			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
-			
-		}else if("write".equals(act)) {
+
+		} else if ("write".equals(act)) {
 			System.out.println("write");
 			
-		}else if("writeForm".equals(act)) {
+			
+
+		} else if ("writeForm".equals(act)) {
 			System.out.println("writeForm");
 			
-			WebUtil.forward(request, response,  "/WEB-INF/views/board/writeForm.jsp");
 			
-		}else if("modify".equals(act)) {
+
+			WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
+
+		} else if ("modify".equals(act)) {
 			System.out.println("modify");
-			
-		}else if("modifyForm".equals(act)) {
+
+		} else if ("modifyForm".equals(act)) {
 			System.out.println("modifyForm");
-			
-		}else if("delete".equals(act)) {
+
+		} else if ("delete".equals(act)) {
 			System.out.println("delete");
-			
-			WebUtil.redirect(request, response, "mysite/board");
+
+			int no = Integer.parseInt(request.getParameter("no"));
+
+			BoardDao boardDao = new BoardDao();
+			boardDao.delete(no);
+
+			WebUtil.redirect(request, response, "/mysite/board?action=list");
 		}
-		
-		
-		
+
 	}
 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
 		doGet(request, response);
 	}
 

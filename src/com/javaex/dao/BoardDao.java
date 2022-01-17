@@ -116,7 +116,7 @@ public class BoardDao {
 
 	// 조회수 증가
 	public int read(int bno) {
-		
+
 		int count = 0;
 		getConnection();
 
@@ -132,7 +132,7 @@ public class BoardDao {
 
 			count = pstmt.executeUpdate();
 
-			System.out.println("[" + bno + "번 게시글 조회수가 " + count + "증가했습니다.]");
+			System.out.println(bno + "번 게시글 조회수가 " + count + "증가했습니다.");
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -143,8 +143,8 @@ public class BoardDao {
 
 	// 특정 게시글 선택
 	public BoardVo getBoard(int bno) {
-		BoardVo boardVo = null;
 
+		BoardVo boardVo = null;
 		getConnection();
 
 		try {
@@ -164,6 +164,8 @@ public class BoardDao {
 
 			pstmt.setInt(1, bno);
 
+			System.out.println(bno);
+
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -176,7 +178,7 @@ public class BoardDao {
 				int uno = rs.getInt("uno");
 
 				boardVo = new BoardVo(no, title, content, hit, regDate, name, uno);
-				
+
 			}
 
 		} catch (SQLException e) {
@@ -186,6 +188,60 @@ public class BoardDao {
 		close();
 
 		return boardVo;
+	}
+
+	// 게시글 삭제
+	public int delete(int bno) {
+
+		int count = 0;
+		getConnection();
+
+		try {
+			String query = "";
+			query += " delete from board ";
+			query += " where	   no= ? ";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setInt(1, bno);
+
+			count = pstmt.executeUpdate();
+
+			System.out.println(count + "건 삭제되었습니다.");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		close();
+		return count;
+	}
+
+	// 게시글 작성
+	public int write(String title, String content, int userNo) {
+
+		int count = 0;
+		getConnection();
+
+		try {
+			String query = "";
+			query += " insert into board ";
+			query += " values(seq_board_no.nextval, ?, ?, 0, sysdate, ?) ";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setString(1, title); 
+			pstmt.setString(2, content); 
+			pstmt.setInt(3, userNo);
+
+			count = pstmt.executeUpdate();
+
+			System.out.println(count + "건 등록되었습니다.]");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		close();
+		return count;
 	}
 
 }

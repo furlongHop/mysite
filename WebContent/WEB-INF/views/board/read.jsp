@@ -51,43 +51,36 @@
 							<!-- 작성자 -->
 							<div class="form-group">
 								<span class="form-text">작성자</span>
-								<span class="form-value">${boardVo.name}</span>
+								<span class="form-value">${requestScope.getBoard.userName}</span>
 							</div>
 							
 							<!-- 조회수 -->
 							<div class="form-group">
 								<span class="form-text">조회수</span>
-								<span class="form-value">${boardVo.hit}</span>
+								<span class="form-value">${requestScope.getBoard.hit}</span>
 							</div>
 							
 							<!-- 작성일 -->
 							<div class="form-group">
 								<span class="form-text">작성일</span>
-								<span class="form-value">${boardVo.regDate}</span>
+								<span class="form-value">${requestScope.getBoard.regDate}</span>
 							</div>
 							
 							<!-- 제목 -->
 							<div class="form-group">
 								<span class="form-text">제 목</span>
-								<span class="form-value">${boardVo.title}</span>
+								<span class="form-value">${requestScope.getBoard.title}</span>
 							</div>
 						
 							<!-- 내용 -->
 							<div id="txt-content">
 								<span class="form-value" >
-									여기에는 본문내용이 출력됩니다.<br>
-									여기에는 본문내용이 출력됩니다.<br>
-									여기에는 본문내용이 출력됩니다.<br>
-									여기에는 본문내용이 출력됩니다.<br>
-									여기에는 본문내용이 출력됩니다.<br>
-									여기에는 본문내용이 출력됩니다.<br>
-									여기에는 본문내용이 출력됩니다.<br>
-									여기에는 본문내용이 출력됩니다.<br>
+									${requestScope.getBoard.content}
 								</span>
 							</div>
 							
-							<a id="btn_modify" href="">수정</a>
-							<a id="btn_modify" href="mysite/board/?action=list">목록</a>
+							<a id="btn_modify" href="mysite/board?action=modifyForm&bNo=${requestScope.getBoard.no}">수정</a>
+							<a id="btn_modify" href="/mysite/board?action=list">목록</a>
 							
 						</form>
 						<!-- //form -->
