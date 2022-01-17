@@ -235,7 +235,7 @@ public class BoardDao {
 
 			count = pstmt.executeUpdate();
 
-			System.out.println(count + "건 등록되었습니다.]");
+			System.out.println(count + "건 등록되었습니다.");
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);

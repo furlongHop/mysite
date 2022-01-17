@@ -51,20 +51,29 @@ public class BoardController extends HttpServlet {
 		} else if ("write".equals(act)) {
 			System.out.println("write");
 			
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			int uno = Integer.parseInt(request.getParameter("userNo"));
 			
+			BoardDao boardDao = new BoardDao();
+			boardDao.write(title, content, uno); 
+			
+			WebUtil.redirect(request, response, "/mysite/board?action=list");
 
 		} else if ("writeForm".equals(act)) {
 			System.out.println("writeForm");
-			
-			
 
 			WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
 
 		} else if ("modify".equals(act)) {
 			System.out.println("modify");
+			
+			
 
 		} else if ("modifyForm".equals(act)) {
 			System.out.println("modifyForm");
+			
+			
 
 		} else if ("delete".equals(act)) {
 			System.out.println("delete");

@@ -50,13 +50,14 @@
 						<form action="#" method="get">
 							<!-- 제목 -->
 							<div class="form-group">
+							<input type="hidden" name=userNo value="${sessionScope.authUser.no}">
 								<label class="form-text" for="txt-title">제목</label>
-								<input type="text" id="txt-title" name="" value="" placeholder="제목을 입력해 주세요">
+								<input type="text" id="txt-title" name="title" value="" placeholder="제목을 입력해 주세요">
 							</div>
 						
 							<!-- 내용 -->
 							<div class="form-group">
-								<textarea id="txt-content"></textarea>
+								<textarea id="txt-content" name="content"></textarea>
 							</div>
 							
 							<a id="btn_cancel" href="/mysite/board?action=list">취소</a>
